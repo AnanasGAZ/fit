@@ -563,7 +563,7 @@ func ex21() {
 // Сохрани порядок элементов.
 func InsertMany(s []int, i int, values []int) ([]int, error) {
 	if len(values) == 0 {
-		return s, fmt.Errorf("Значений для вставки нет")
+		return s, nil
 	}
 	if i < 0 || i > len(s) {
 		return s, fmt.Errorf("Не корректный индекс")
@@ -575,9 +575,10 @@ func InsertMany(s []int, i int, values []int) ([]int, error) {
 	return s, nil
 }
 func ex22() {
-	s := randomSlice(10, 15, 1, 42)
-	left := 2
-	right := 5
+	// s := randomSlice(10, 15, 1, 42)
+	s := []int{10, 20, 30, 40, 50}
+	left := 1
+	right := 3
 	fmt.Printf("Исходный слайс %v\n удалить значения с индекса %v по индекс %v\n", s, left, right)
 	s, err := DeleteRange(s, left, right)
 	if err != nil {
@@ -596,9 +597,9 @@ func DeleteRange(s []int, left, right int) ([]int, error) {
 	if right-left == 0 {
 		return s, nil
 	}
-	cutiNdex := len(s) - (right - left + 1)
+	cutiNdex := len(s) - (right - left)
 	println(cutiNdex)
-	copy(s[left:], s[right+1:])
+	copy(s[left:], s[right:])
 	return s[:cutiNdex], nil
 }
 
@@ -758,5 +759,5 @@ func CloneRange(s []int, left, right int) ([]int, error) {
 }
 
 func main() {
-	ex26()
+	ex22()
 }
