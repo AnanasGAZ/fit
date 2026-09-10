@@ -66,14 +66,16 @@ func IsASCII(s string) bool {
 
 // ----------------------------3--------------------------
 func ex3() {
-	FirstRune("Привет!")
+	s := "Привет!"
+	r, have_rune := FirstRune(s)
+	fmt.Printf("Исходная строка %v , \n первый Unicode-символ %c, первый Unicode-символ?': %v", s, r, have_rune)
 }
 
 // Напишите функцию, которая возвращает первый Unicode-символ строки и признак его
 // наличия. Пустую строку обработайте без panic.
 
 func FirstRune(s string) (rune, bool) {
-	if s != "" {
+	if s == "" {
 		return 0, false
 	}
 
@@ -168,24 +170,24 @@ func ReplaceRune(s string, old, new rune) string {
 
 // ----------------------------8-------------
 func ex8() {
-	s := "То пот"
+	s := "топот"
 
 	fmt.Printf("%q — палиндром: %v\n", s, IsPalindrome(s))
 }
 
-// 8. Проверьте, является ли строка палиндромом по Unicode-символам. Регистр и пробелы
-// пока учитываются.
+//  8. Проверьте, является ли строка палиндромом по Unicode-символам. Регистр и пробелы
+//     учитываются.
 func IsPalindrome(s string) bool {
 	r := []rune(s)
-	result_r := make([]rune, 0, len(r))
-	for _, val := range r {
-		if !unicode.IsSpace(val) {
-			result_r = append(result_r, unicode.ToLower(val))
-		}
-	}
+	// r := make([]rune, 0, len(r))
+	// for _, val := range r {
+	// 	if !unicode.IsSpace(val) {
+	// 		r = append(r, unicode.ToLower(val))
+	// 	}
+	// }
 
-	for left, right := 0, len(result_r)-1; left < right; left, right = left+1, right-1 {
-		if result_r[left] != result_r[right] {
+	for left, right := 0, len(r)-1; left < right; left, right = left+1, right-1 {
+		if r[left] != r[right] {
 			return false
 		}
 	}
@@ -251,5 +253,5 @@ func NormalizeSpaces(s string) string {
 
 // ----------------------------------------11-------------------------------------
 func main() {
-	ex10()
+	ex8()
 }
