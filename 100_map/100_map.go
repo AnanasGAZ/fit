@@ -221,30 +221,42 @@ func Invert(m map[string]int) (map[int]string, error) {
 
 // ----------------------------------8--------------------------
 func ex8() {
-	a := map[string]int{
-		"apple":  100,
-		"orange": 200,
-		"персик": 100,
-	}
-	b := map[string]int{
-		"apple":  100,
-		"orange": 200,
-		"груша":  300,
-	}
+	// a := map[string]int{
+	// 	"apple":  100,
+	// 	"orange": 200,
+	// 	"персик": 100,
+	// }
+	// b := map[string]int{
+	// 	"apple":  100,
+	// 	"orange": 200,
+	// 	"груша":  300,
+	// }
+	a := map[string]int{"a": 1}
+	b := map[string]int{"b": 2}
 	fmt.Printf("Итоговая мапа: %v", MergeCounts(a, b))
 }
 
 // Напишите функцию MergeCounts(a, b map[string]int) map[string]int,
 // которая создает новую мапу и
 // складывает значения совпадающих ключей. Исходные мапы изменять нельзя
+// v2 если не совпадают ключи - просто взять значения
 func MergeCounts(a, b map[string]int) map[string]int {
 	result := make(map[string]int)
 	for key_a, val_a := range a {
 		val_b, exists := b[key_a]
 		if exists {
 			result[key_a] = (val_a + val_b)
+		} else {
+			result[key_a] = val_a
 		}
 	}
+	for key_b, val_b := range b {
+		_, exists := a[key_b]
+		if !exists {
+			result[key_b] = val_b
+		}
+	}
+
 	return result
 }
 
@@ -348,6 +360,33 @@ func Equal2(a, b map[string]int) bool {
 	return maps.Equal(a, b)
 }
 
+// -------------------------------12-----------------------------
+func ex12() {
+	a := []int{42, 45, 11, 3, 4, 5}
+	b := []int{3, 4, 5, 6, 7}
+	result := Difference(a, b)
+	fmt.Println(result) // [42 45 11]
+}
+
+// Напишите функцию Difference(a, b []int) []int, которая возвращает уникальные значения,
+// присутствующие в a, но отсутствующие в b.
+// Порядок результата должен совпадать с порядком первых вхождений в a.
+func Difference(a, b []int) []int {
+	// map_B := map[int]bool{}
+	map_B := make(map[int]bool, len(a))
+	for _, num := range b {
+		map_B[num] = true
+	}
+	var result []int
+	//есть в а но нет в b - добавляем в результат
+	for _, num := range a {
+		if !map_B[num] {
+			result = append(result, num)
+		}
+	}
+	return result
+}
+
 func main() {
-	ex11()
+	ex12()
 }
