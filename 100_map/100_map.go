@@ -362,10 +362,14 @@ func Equal2(a, b map[string]int) bool {
 
 // -------------------------------12-----------------------------
 func ex12() {
-	a := []int{42, 45, 11, 3, 4, 5}
-	b := []int{3, 4, 5, 6, 7}
-	result := Difference(a, b)
-	fmt.Println(result) // [42 45 11]
+	// a := []int{42, 45, 11, 3, 4, 5}
+	// b := []int{3, 4, 5, 6, 7}
+	// result := Difference(a, b)
+	// fmt.Println(result) // [42 45 11]
+	a := []int{1, 1, 2, 2, 3}
+	b := []int{3}
+
+	fmt.Println(Difference(a, b))
 }
 
 // Напишите функцию Difference(a, b []int) []int, которая возвращает уникальные значения,
@@ -373,15 +377,40 @@ func ex12() {
 // Порядок результата должен совпадать с порядком первых вхождений в a.
 func Difference(a, b []int) []int {
 	// map_B := map[int]bool{}
-	map_B := make(map[int]bool, len(a))
-	for _, num := range b {
-		map_B[num] = true
+	map_A := make(map[int]bool, len(a))
+	for _, num := range a {
+		map_A[num] = true
 	}
 	var result []int
 	//есть в а но нет в b - добавляем в результат
-	for _, num := range a {
-		if !map_B[num] {
+	for _, num := range b {
+		if map_A[num] {
+			map_A[num] = false
+		}
+	}
+	for num, ok := range map_A {
+		if ok {
 			result = append(result, num)
+		}
+	}
+	fmt.Println(map_A)
+
+	return result
+}
+
+// --------------13-----------
+// Напишите функцию Intersection(a, b []string) []string,
+// которая возвращает уникальное
+// пересечение двух слайсов в порядке первых вхождений в a
+func Intersection(a, b []string) []string {
+	map_B := make(map[string]bool, len(b))
+	for _, s := range b {
+		map_B[s] = true
+	}
+	var result []string
+	for _, s := range a {
+		if map_B[s] {
+			result = append(result, s)
 		}
 	}
 	return result

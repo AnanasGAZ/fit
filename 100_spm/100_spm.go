@@ -83,12 +83,15 @@ type Point1 struct {
 
 func ex4() {
 	p := Point1{
-		x: 6,
-		y: 5,
+		x: 0,
+		y: 0,
 	}
 	fmt.Println(IsOrigin(p))
 }
 func IsOrigin(p Point1) bool {
+	if p.x != 0 {
+		return false
+	}
 	if p.x == p.y {
 		return true
 	}
@@ -195,12 +198,18 @@ type Range struct {
 // }
 
 //--------------------------ex10---------------
+func ex10() {
+	p1 := Point{x: 1, y: 2}
+	p2 := MovePoint(p1, 10, 20)
+	fmt.Printf("Смещение: %v", p2)
+}
+
 // Напишите функцию MovePoint(p Point, dx, dy int) Point,
 // которая возвращает новую точку, неизменяя исходную.
 func MovePoint(p Point, dx, dy int) Point {
 	return Point{
-		x: dx,
-		y: dy,
+		x: p.x + dx,
+		y: p.y + dy,
 	}
 }
 
@@ -252,5 +261,5 @@ func Discounted(p Product, percent int) Product {
 	}
 }
 func main() {
-	ex12()
+	ex10()
 }

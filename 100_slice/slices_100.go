@@ -282,17 +282,18 @@ func Reverse(s []int) {
 func ex11() {
 	s := []int{1, 2, 3, 4, 5}
 	fmt.Printf("Исходный слайс: %v\n", s)
-	SwapPairs2(s)
+	SwapPairs(s)
 	fmt.Printf("Итоговый слайс %v\n", s)
 }
 
-// Поменяй местами соседние элементы: [1,2,3,4,5] -> [2,1,4,3,5]. Работай in-place.
+// // Поменяй местами соседние элементы: [1,2,3,4,5] -> [2,1,4,3,5]. Работай in-place.
+//
+//	func SwapPairs(s []int) {
+//		for left, right := 0, len(s)-1; left < right; left, right = left+1, right-1 {
+//			s[left], s[right] = s[right], s[left]
+//		}
+//	}
 func SwapPairs(s []int) {
-	for left, right := 0, len(s)-1; left < right; left, right = left+1, right-1 {
-		s[left], s[right] = s[right], s[left]
-	}
-}
-func SwapPairs2(s []int) {
 	for left, right := 0, 1; right < len(s); left, right = left+2, right+2 {
 
 		s[left], s[right] = s[right], s[left]
@@ -544,17 +545,23 @@ func InsertAt(s []int, i, value int) ([]int, error) {
 	return s, nil
 }
 func ex21() {
-	s := randomSlice(7, 10, 10, 15)
-	//values := randomSlice(3, 5, 40, 45)
-	values := []int{}
-	i := 2
-	fmt.Printf("Исходный слайс %v\n вставить значение %v\n, по индексу %v\n", s, values, i)
-	s, err := InsertMany(s, i, values)
-	if err != nil {
-		fmt.Printf("Ошибка: %v", err)
-		return
-	}
-	fmt.Printf("Итоговый слайс %v\n ", s)
+	// s := randomSlice(7, 10, 10, 15)
+	// //values := randomSlice(3, 5, 40, 45)
+	// values := []int{}
+	// i := 2
+	// fmt.Printf("Исходный слайс %v\n вставить значение %v\n, по индексу %v\n", s, values, i)
+	// s, err := InsertMany(s, i, values)
+	// if err != nil {
+	// 	fmt.Printf("Ошибка: %v", err)
+	// 	return
+	// }
+	// fmt.Printf("Итоговый слайс %v\n ", s)
+	s := []int{10, 20}
+
+	result, err := InsertMany(s, 100, []int{})
+
+	fmt.Println(result)
+	fmt.Println(err)
 
 }
 
@@ -562,11 +569,15 @@ func ex21() {
 // values может быть пустым.
 // Сохрани порядок элементов.
 func InsertMany(s []int, i int, values []int) ([]int, error) {
-	if len(values) == 0 {
-		return s, nil
-	}
+
 	if i < 0 || i > len(s) {
+		fmt.Println("if i < 0 || i > len(s)")
 		return s, fmt.Errorf("Не корректный индекс")
+	}
+	fmt.Println("before len values if")
+	if len(values) == 0 {
+		fmt.Println("in len values if")
+		return s, nil
 	}
 	s = append(s, make([]int, len(values))...)
 	// copy(куда_копировать, что_копировать)
@@ -758,6 +769,10 @@ func CloneRange(s []int, left, right int) ([]int, error) {
 	return clone, nil
 }
 
+// -----------------------------23
+// func Splice(s []int, start, deleteCount int, values []int) ([]int, error)
+// Реализуй аналог splice: начиная со start удали deleteCount элементов и вставь values. Сохрани
+// порядок и минимизируй лишние аллокации.
 func main() {
-	ex22()
+	ex21()
 }

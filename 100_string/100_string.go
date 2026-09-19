@@ -252,6 +252,61 @@ func NormalizeSpaces(s string) string {
 }
 
 // ----------------------------------------11-------------------------------------
+
+// ------------------------на созвоне 18,09 ---------
+
+// неизменяемая последовательность байтов. в руны, потом обратно - для измен
+// руны imt32 - 4 байта (1 - англ, 2 - рус, 4 - смайлы) ,aqns - byn8
+// итерируемся по рунам. Рантайм сам понимает сколько занимает символ
+//
+// Это просто байты
+//
+//	for i := 0; i < len(s); i++ {
+//	 fmt.Println(s[i])
+//	}
+//
+// Сроки надо так объодить:
+//
+//	for index, r := range s {
+//	 fmt.Println(index, r)
+//	}
+
+// Функция должна вернуть количество вхождений каждой руны в строку.
+
+func CountRunes(s string) map[rune]int {
+	r := []rune(s)
+	counts := make(map[rune]int)
+	for _, val := range r {
+		counts[val]++
+	}
+	return counts
+}
+
+func FirstUniqueRune(s string) (rune, bool) {
+	r := []rune(s)
+	counts := make(map[rune]int)
+	for _, val := range r {
+		counts[val]++
+	}
+	for _, val := range r {
+		if counts[val] == 1 {
+			return val, true
+		}
+	}
+	return 0, false
+}
+
 func main() {
-	ex8()
+	r, ok := FirstUniqueRune("aabbcdd")
+	fmt.Printf("%c: %t\n", r, ok)
+	// c := CountRunes("мама")
+	// for k, v := range c {
+	// 	fmt.Printf("%c: %d\n", k, v)
+	// }
+
+	// // ex8()
+	// s := "Привет" //6 но латинских - будет 12
+
+	// fmt.Println(len(s))         //12
+	// fmt.Println(len([]rune(s))) //6
 }
