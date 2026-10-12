@@ -614,6 +614,8 @@ func DeleteRange(s []int, left, right int) ([]int, error) {
 	return s[:cutiNdex], nil
 }
 
+// -----------------------------23
+
 func ex23() {
 	s := randomSlice(7, 10, 10, 15)
 	values := randomSlice(5, 5, 40, 45)
@@ -638,6 +640,9 @@ func ReplaceRange(s []int, left, right int, values []int) ([]int, error) {
 	// 2 короче  -> уменьшаем слайс
 	// 3 values пусто -> просто удаляе из слайса
 	// 4 left == right -> просто вставка right+1 т.к. right) - полуинтервал - не включен
+	// result := []int{}
+	// result = append(result, s[:left]...)
+
 	if left < 0 || right < 0 || left > len(s) || right > len(s) || left > right {
 		return s, fmt.Errorf("Не корректные индексы")
 
@@ -649,6 +654,7 @@ func ReplaceRange(s []int, left, right int, values []int) ([]int, error) {
 	return result, nil
 
 }
+
 func ex24() {
 	s := randomSlice(7, 10, 10, 25)
 	values := randomSlice(5, 5, 40, 45)
@@ -769,10 +775,52 @@ func CloneRange(s []int, left, right int) ([]int, error) {
 	return clone, nil
 }
 
-// -----------------------------23
-// func Splice(s []int, start, deleteCount int, values []int) ([]int, error)
-// Реализуй аналог splice: начиная со start удали deleteCount элементов и вставь values. Сохрани
-// порядок и минимизируй лишние аллокации.
+// ---------27
+// Объедини два слайса в новый независимый слайс
+// Постарайся сделать не больше одной аллокации
+// Аллокация — это выделение памяти для данных.
+// Backing array — это скрытый массив,
+// в котором реально лежат элементы слайса.
+// Сам слайс — это своего рода «окошко» на этот массив: он хранит ссылку на него, длину и ёмкость.
+
+// есть ли разница между copy   append?
+func ex27() {
+	s1 := []int{11, 20, 30, 42, 50}
+	s2 := []int{41, 67, 70, 100, 273}
+	fmt.Println(Concat(s1, s2))
+
+}
+func Concat(a, b []int) []int {
+	clone := make([]int, 0, len(a)+len(b))
+	clone = append(clone, a...)
+	return append(clone, b...)
+}
+
+// 28.
+func ex28() {
+	part1 := []int{2015, 17, 07, 15}
+	part2 := []int{1984, 2026, 02, 10, 450}
+	part3 := []int{7, 4, 3, 1980, 450}
+	fmt.Println(ConcatMany(part1, part2, part3))
+}
+
+// func ConcatMany(parts ...[]int) []int
+// Объедини произвольное количество слайсов в один независимый слайс. Сначала вычисли
+// итоговую длину и постарайся выделить память один раз.
+func ConcatMany(parts ...[]int) []int {
+	total := 0
+	for _, part := range parts {
+		total += len(part)
+	}
+
+	result := make([]int, 0, total)
+
+	for _, part := range parts {
+		result = append(result, part...)
+	}
+	return result
+}
+
 func main() {
-	ex21()
+	ex28()
 }

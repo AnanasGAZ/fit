@@ -260,6 +260,47 @@ func Discounted(p Product, percent int) Product {
 		Price: p.Price * (100 - percent) / 100,
 	}
 }
+
+//ex13
+//Определите структуру Employee с полями Name string, Rate int и Hours int.
+// Напишите функцию Salary(e Employee) int
+type Employee struct {
+	Name  string
+	Rate  int
+	Hours int
+}
+
+func Salary(e Employee) int {
+	return e.Hours * e.Rate
+}
+
+// ex14
+func ex14() {
+	t := ClockTime{
+		Hour:   1,
+		Minute: 121,
+	}
+	fmt.Println(NormalizeTime(t))
+}
+
+//Определите структуру ClockTime с полями Hour int и Minute int.
+// Напишите функцию NormalizeTime(tClockTime) ClockTime,
+// которая переносит лишние минуты в часы и приводит время к диапазону суток.
+type ClockTime struct {
+	Hour   int
+	Minute int
+}
+
+func NormalizeTime(t ClockTime) ClockTime {
+	hour := t.Minute / 60
+	fmt.Println(hour)
+	if hour > 0 {
+		t.Hour += hour
+		t.Minute -= hour * 60
+	}
+	return t
+}
+
 func main() {
-	ex10()
+	ex14()
 }

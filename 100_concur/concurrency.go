@@ -209,6 +209,136 @@ func ex8() {
 	// fmt.Println(r.Height)
 }
 
+//------------
+func test123() {
+	fmt.Println("hello22")
+	ch := make(chan int)
+	//замыкание
+	go func() {
+		fmt.Println("hello")
+		ch <- 10
+	}()
+	fmt.Println(<-ch)
+}
+func test124() {
+	ch := make(chan int)
+	//замыкание
+	go func() {
+		ch <- 10
+		ch <- 20
+		ch <- 30
+	}()
+	s := make([]int, 0, 3) // len capacity!!!
+	s = append(s, <-ch)
+	s = append(s, <-ch)
+	s = append(s, <-ch)
+	fmt.Println(s)
+}
+
+// Напиши функцию Generate,
+// которая запускается как горутина, отправляет в канал числа от 1 до n, после чего закрывает канал.
+
+// main читает значения через range, собирает их в слайс и печатает результат.
+func Generate(n int, ch chan int) {
+	for i := range n {
+		ch <- i + 1
+	}
+	close(ch) // закрыли
+}
+func live_code_main_1() {
+	ch := make(chan int)
+	n := 3
+	go Generate(n, ch)
+
+	s := make([]int, 0, n) // len capacity!!!
+
+	for val := range ch { // читаем до close (если не буф)
+		s = append(s, val)
+	}
+	// s = append(s, <-ch)
+	// s = append(s, <-ch)
+	// s = append(s, <-ch)
+	fmt.Println(s)
+
+	// count := 0
+
+	// for i1 := range 100000 {
+	// 	count += i1
+	// }
+
+}
+
+// ---------------9
+// Структура в ответе
+
+// Напиши AnalyzePair:
+// одна горутина вычисляет сумму двух чисел и признак их
+// равенства.
+// Передай оба результата одним значением структуры PairInfo.
+type PairInfo struct {
+	Sum   int
+	Equal bool
+}
+
+func AnalyzePair(a, b int) PairInfo {
+	ch := make(chan PairInfo)
+	// замыкание(1- анонимн.функц, 2 - ображение к a,b)
+	go func() {
+		ch <- PairInfo{
+			Sum:   a + b,
+			Equal: a == b,
+		}
+	}()
+
+	return <-ch
+
+}
+func ex9() {
+	pi := AnalyzePair(2, 5)
+	fmt.Println("Sum:", pi.Sum, "Equal:", pi.Equal)
+}
+
+// Результат: Для 4 и 4 верни PairInfo{Sum: 8, Equal: true};
+// для 2 и 5 верни {Sum: 7, Equal: false}.
+
+// Ограничения: Один канал типа chan PairInfo без буфера.
+// Не передавай поля отдельными сообщениями. --???
+// После единственной отправки горутина возвращается.
+// Канал никто не закрывает. Сумма помещается в int.
+
+//10. Нулевая сумма тоже результат
+func ex10() {
+	// s := []int{-2, 0, 5, -1}
+	s := []int{8, 3}
+	fmt.Println("Sum: ", SumNonNegative(s))
+}
+
+// Напиши SumNonNegative: горутина складывает только неотрицательные элементы
+//слайса. Вызывающая функция получает один результат для любого входа.
+func SumNonNegative(nums []int) int {
+	ch := make(chan int)
+	go func() {
+		sum := 0
+		for _, val := range nums {
+			if val > 0 {
+				sum += val
+			}
+		}
+		ch <- sum
+	}()
+	return <-ch
+}
+
+//Результат: Для [-2, 0, 5, -1] верни 5; для [-8, -3] и пустого слайса верни 0.
+
+// Ограничения:
+// Не заверши горутину до отправки результата, даже если
+// подходящих чисел нет.
+// Слайс не меняй.
+// Один небуферизированный канал без
+// закрытия, одно чтение.
+// Сумма помещается в int.
+
 func main() {
-	ex8()
+	ex10()
 }

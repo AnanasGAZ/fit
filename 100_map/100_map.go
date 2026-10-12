@@ -416,6 +416,40 @@ func Intersection(a, b []string) []string {
 	return result
 }
 
+// ---------14--------
+// Напишите функцию SymmetricDifference(a, b []int) []int,
+//
+//	которая возвращает значения,
+//
+// встречающиеся только в одном из двух наборов.
+// Результат отсортируйте по возрастанию
+func SymmetricDifference(a, b []int) []int {
+	mapA := make(map[int]struct{}, len(a))
+	mapB := make(map[int]struct{}, len(b))
+	result := make([]int, 0)
+
+	for _, v := range a {
+		mapA[v] = struct{}{}
+	}
+	for _, v := range b {
+		mapB[v] = struct{}{}
+	}
+	for v := range mapA {
+		if _, exists := mapB[v]; !exists {
+			result = append(result, v)
+		}
+	}
+
+	// Берём значения из b, которых нет в a.
+	for v := range mapB {
+		if _, exists := mapA[v]; !exists {
+			result = append(result, v)
+		}
+	}
+
+	sort.Ints(result)
+	return result
+}
 func main() {
 	ex12()
 }

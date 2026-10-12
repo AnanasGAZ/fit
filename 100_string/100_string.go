@@ -295,10 +295,31 @@ func FirstUniqueRune(s string) (rune, bool) {
 	}
 	return 0, false
 }
-
-func main() {
+func ex_test_FirstUniqueRune() {
 	r, ok := FirstUniqueRune("aabbcdd")
 	fmt.Printf("%c: %t\n", r, ok)
+}
+
+// -----------------12------------------------
+// Верните байтовый индекс первого вхождения
+// подстроки без strings.Index.
+// Если вхождения нет, верните -1.
+func ex12() {
+	fmt.Println(IndexOf("Hello happy world ", "happy"))
+}
+func IndexOf(s, sub string) int {
+
+	for i := 0; i+len(sub) <= len(s); i++ {
+		if s[i:i+len(sub)] == sub {
+			return i
+		}
+	}
+
+	return -1
+}
+
+func main() {
+	ex12()
 	// c := CountRunes("мама")
 	// for k, v := range c {
 	// 	fmt.Printf("%c: %d\n", k, v)
