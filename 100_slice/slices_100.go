@@ -821,6 +821,69 @@ func ConcatMany(parts ...[]int) []int {
 	return result
 }
 
-func main() {
-	ex28()
+// func Unique(s []int) []int
+// Верни уникальные элементы в порядке первого появления.
+// Результат должен быть независимым
+// от исходного слайса
+func ex29() {
+	fmt.Println(Unique([]int{4, 2, 4, 1, 2}))
 }
+func Unique(s []int) []int {
+	result := make([]int, 0, len(s))
+	m := make(map[int]struct{}, len(s))
+	for _, val := range s {
+		if _, exist := m[val]; !exist {
+			m[val] = struct{}{}
+			result = append(result, val)
+		}
+	}
+	return result
+}
+
+func main() {
+	// ex29()
+	fmt.Println(HasItems([]int{3, 2, 8, 5}, 11)) // true: 3 + 8
+	fmt.Println(HasItems([]int{3, 2, 8, 5}, 12)) // false
+	fmt.Println(HasItems([]int{3}, 6))           // false
+	fmt.Println(HasItems([]int{3, 3}, 6))        // true
+	fmt.Println(HasItems([]int{-2, 7, 4}, 5))    // true
+	fmt.Println(HasItems([]int{0, 0}, 0))        // true
+	fmt.Println(HasItems(nil, 0))                // false
+
+}
+
+//----------16 10 созвон ------------
+// Условие: напиши функцию:
+
+func HasItems(items []int, target int) bool {
+	m := make(map[int]struct{}, len(items))
+	// Для nil и длины меньше двух верни false.
+	for _, val := range items {
+
+		if _, exist := m[target-val]; exist {
+			return true
+		}
+		m[val] = struct{}{}
+	}
+	return false
+}
+
+// Верни true, если есть два элемента с разными индексами, сумма которых равна target. Иначе false.
+
+// Одно вхождение нельзя использовать дважды; два равных числа на разных позициях можно.
+
+// Есть отрицательные числа и нули; вход не отсортирован и не должен меняться.
+
+// Для nil и длины меньше двух верни false.
+
+// Ожидаемое время O(n), память O(n), используй map. Без сортировки.
+
+// Считай, что суммы и разности входных чисел помещаются в int.
+
+// HasItems([]int{3, 2, 8, 5}, 11) // true: 3 + 8
+// HasItems([]int{3, 2, 8, 5}, 12) // false
+// HasItems([]int{3}, 6)           // false
+// HasItems([]int{3, 3}, 6)        // true
+// HasItems([]int{-2, 7, 4}, 5)    // true
+// HasItems([]int{0, 0}, 0)        // true
+// HasItems(nil, 0)               // false

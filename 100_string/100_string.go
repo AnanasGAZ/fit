@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"unicode"
 	"unicode/utf8"
@@ -318,8 +319,43 @@ func IndexOf(s, sub string) int {
 	return -1
 }
 
+// ---------------------13
+// Подсчитайте непересекающиеся вхождения подстроки.
+// Для пустой подстроки верните ошибку.
+func ex13() {
+	int, err := CountOccurrences("Hello happy world happy", "happy")
+	fmt.Println(int, err)
+}
+
+func CountOccurrences(s, sub string) (int, error) {
+	if sub == "" {
+		return 0, errors.New("Пустая подстрока")
+	}
+	count := 0
+
+	subLen := len(sub)
+	sLen := len(s)
+	fmt.Println(sLen, subLen)
+
+	// Проходим по строке, пока есть место для подстроки
+	for i := 0; i <= sLen-subLen; {
+		fmt.Println("--------------Индекс: ", i, "-------------")
+		fmt.Println("Сравниваем вот этот кусок: ", s[i:i+subLen])
+		if s[i:i+subLen] == sub {
+			fmt.Println("-------------------------------------СОВПАЛО!!!")
+			count++
+			i += subLen // Пропускаем найденную часть (гарантия непересечения)
+			fmt.Println("i = ", i, ", sLen-subLen = ", sLen-subLen)
+		} else {
+			i++
+			fmt.Println("-")
+		}
+	}
+	return count, nil
+}
+
 func main() {
-	ex12()
+	ex13()
 	// c := CountRunes("мама")
 	// for k, v := range c {
 	// 	fmt.Printf("%c: %d\n", k, v)

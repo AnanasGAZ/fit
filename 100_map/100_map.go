@@ -5,6 +5,7 @@ import (
 	"maps"
 	"math/rand/v2"
 	"sort"
+	"strings"
 )
 
 // --------------------------Util----------------------------------
@@ -450,6 +451,29 @@ func SymmetricDifference(a, b []int) []int {
 	sort.Ints(result)
 	return result
 }
+
+// -------------------15
+func ex15() {
+	fmt.Println(UniqueFold([]string{"Go", "go", "Gopher"}))
+}
+
+// Напишите функцию UniqueFold(words []string) []string,
+// удаляющую дубликаты без учета регистра,
+// но сохраняющую написание первого вхождения.
+// Используйте Unicode-преобразование регистра.
+func UniqueFold(words []string) []string {
+	m := make(map[string]struct{}, len(words))
+	result := make([]string, 0, len(words))
+	for _, val := range words {
+		key := strings.ToLower(val)
+		if _, exist := m[key]; !exist {
+			m[key] = struct{}{}
+			result = append(result, val)
+
+		}
+	}
+	return result
+}
 func main() {
-	ex12()
+	ex15()
 }

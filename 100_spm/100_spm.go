@@ -301,6 +301,44 @@ func NormalizeTime(t ClockTime) ClockTime {
 	return t
 }
 
+//-----------------15
+func ex15() {
+	a := Date{01, 02, 1996}
+	b := Date{01, 02, 1998}
+	fmt.Println(CompareDate(a, b))
+}
+
+// Определите структуру Date с полями Year, Month, Day int.
+// Напишите функцию CompareDate(a, b Date)
+// int, возвращающую -1, 0 или 1
+// -1 — a раньше b;
+// 0 — даты равны;
+// 1 — a позже b.
+type Date struct {
+	Year, Month, Day int
+}
+
+func CompareDate(a, b Date) int {
+	if a.Year < b.Year {
+		return -1.
+	} else if a.Year > b.Year {
+		return 1
+	}
+
+	if a.Month < b.Month {
+		return -1
+	} else if a.Month > b.Month {
+		return 1
+	}
+	if a.Day < b.Day {
+		return -1
+	}
+	if a.Day > b.Day {
+		return 1
+	}
+	return 0
+
+}
 func main() {
-	ex14()
+	ex15()
 }
